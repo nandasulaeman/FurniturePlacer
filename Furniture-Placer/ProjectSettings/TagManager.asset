@@ -5,6 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - ItemDetail
+  - Nav
+  - ItemCategory
+  - Search
+  - Images
+  - 3Dproduct
+  - prefabs
+  - notdestroy
+  - Imgs
+  - Master
+  - search
   layers:
   - Default
   - TransparentFX
