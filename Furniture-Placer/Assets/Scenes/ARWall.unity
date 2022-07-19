@@ -1335,7 +1335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.99963, y: -115.805}
+  m_AnchoredPosition: {x: 960, y: -115.805}
   m_SizeDelta: {x: 0, y: 231.577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438819965
@@ -2163,7 +2163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlanePrefab: {fileID: 0}
-  m_DetectionMode: 1
+  m_DetectionMode: 2
 --- !u!114 &838029646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2430,8 +2430,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 26232495}
   m_HandleRect: {fileID: 26232494}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4255,12 +4255,13 @@ MonoBehaviour:
   prefabdatapreview: {fileID: 3445401565852683696, guid: e483704e00ca2404884359d5cb30df29,
     type: 3}
   parentdata: {fileID: 438819964}
-  url: https://arcommerce.000webhostapp.com/ApiProduct
+  url: https://arcommerce.000webhostapp.com/
   player: {fileID: 0}
   master: {fileID: 0}
   ButtonAnim1: {fileID: 611617178}
   anim: {fileID: 0}
   loadingScreen: {fileID: 961161636}
+  armode: ApiProduct
   childPanel: {fileID: 1942608986}
   prefabchildData: {fileID: 5487627522514149095, guid: e3d43b2cec47e144f8ec85c1ac1b66ba,
     type: 3}
@@ -4270,6 +4271,7 @@ MonoBehaviour:
   price: {fileID: 2092961355}
   desc: {fileID: 797890214}
   rating: {fileID: 2086407097}
+  scenesnow: 2
 --- !u!1 &1521052451
 GameObject:
   m_ObjectHideFlags: 0

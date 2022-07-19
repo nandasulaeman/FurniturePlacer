@@ -198,11 +198,12 @@ public class FurniturePlacer : MonoBehaviour
     }
     public GameObject loadingScreen;
 
+    public string armode;
     IEnumerator GetDataPreview()
     {
         loadingScreen.SetActive(true);
 
-        UnityWebRequest request = UnityWebRequest.Get(url);
+        UnityWebRequest request = UnityWebRequest.Get(url + armode);
         yield return request.SendWebRequest();
 
         if (request.isNetworkError || request.isHttpError)
@@ -300,11 +301,12 @@ public class FurniturePlacer : MonoBehaviour
         desc.text = jsnDetail.description;
     }
 
+    public int scenesnow;
     public void goBack()
     {
         master.SetActive(true);
         objekDestroy();
-        SceneManager.UnloadSceneAsync(1);
+        SceneManager.UnloadSceneAsync(scenesnow);
     }
 
     public void buy()

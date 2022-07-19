@@ -19,7 +19,6 @@ public static class ButtonExtension
 public class ControllerHome : MonoBehaviour
 {
     JsonProduct jsnProduct;
-    JsonProductOLD jsnProductOLD;
     public string url;
     public GameObject loadingScreen;
     public GameObject prefabProductNew;
@@ -37,12 +36,12 @@ public class ControllerHome : MonoBehaviour
         string idPro = PlayerPrefs.GetString("IdProduct");
         if (idPro == "")
         {
-            StartCoroutine(GetProductNew());
+            StartCoroutine(GetProductOld());
         }
         else
         {
             StartCoroutine(detail.GetComponent<ControllerDetail>().GetProductbyID(idPro));
-            StartCoroutine(GetProductNew());
+            StartCoroutine(GetProductOld());
         }
 
     }
@@ -67,7 +66,7 @@ public class ControllerHome : MonoBehaviour
     IEnumerator GetProductOld()
     {
         loadingScreen.SetActive(true);
-        UnityWebRequest request = UnityWebRequest.Get("https://arcommerce.000webhostapp.com/ProductNew");
+        UnityWebRequest request = UnityWebRequest.Get("https://arcommerce.000webhostapp.com/ApiProduct");
         yield return request.SendWebRequest();
 
         if (request.isNetworkError || request.isHttpError)
@@ -78,7 +77,7 @@ public class ControllerHome : MonoBehaviour
         {
             if (request.isDone)
             {
-                jsnProductOLD = JsonUtility.FromJson<JsonProductOLD>(request.downloadHandler.text);
+                jsnProduct = JsonUtility.FromJson<JsonProduct>(request.downloadHandler.text);
                 StartCoroutine(GetProductNew());
                 DrawContentOld();
             }
@@ -93,14 +92,14 @@ public class ControllerHome : MonoBehaviour
         {
             GameObject goItems = (GameObject)Instantiate(prefabProductOld);
             goItems.transform.SetParent(ParentItemsOld, false);
-            Davinci.get().load(imageUrl + jsnProductOLD.Result[i].picture[1]).setCached(true).into(goItems.transform.GetChild(0).GetComponent<Image>()).start();
-            goItems.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TMP_Text>().text = jsnProductOLD.Result[i].name;
-            goItems.transform.GetChild(1).GetChild(1).GetComponent<TMPro.TMP_Text>().text = "Rp"+jsnProductOLD.Result[i].price.ToString("#,###,###,###0");
+            Davinci.get().load(imageUrl + jsnProduct.Result[i].picture[1]).setCached(true).into(goItems.transform.GetChild(0).GetComponent<Image>()).start();
+            goItems.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TMP_Text>().text = jsnProduct.Result[i].name ;
+            goItems.transform.GetChild(1).GetChild(1).GetComponent<TMPro.TMP_Text>().text = "Rp"+jsnProduct.Result[i].price.ToString("#,###,###,###0");
             goItems.transform.GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = "30%";
-            goItems.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<TMPro.TMP_Text>().text = "<s>Rp" + jsnProductOLD.Result[i].price.ToString("#,###,###,###0");
-            goItems.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<TMPro.TMP_Text>().text = jsnProductOLD.Result[i].rating.ToString();
+            goItems.transform.GetChild(1).GetChild(2).GetChild(1).GetComponent<TMPro.TMP_Text>().text = "<s>Rp" + jsnProduct.Result[i].price.ToString("#,###,###,###0");
+            goItems.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<TMPro.TMP_Text>().text = jsnProduct.Result[i].rating.ToString() ;
             
-            goItems.GetComponent<Button>().AddEventListener(i, ItemClicked);
+            goItems.GetComponent<Button>().AddEventListener(jsnProduct.Result[i].id_product, ItemClicked);
         }
     }
 
@@ -137,21 +136,35 @@ public class ControllerHome : MonoBehaviour
             goItems.transform.GetChild(1).GetChild(2).GetComponent<TMPro.TMP_Text>().text = "Rp" + jsnProduct.Result[i].price.ToString("#,###,###,###0");
             goItems.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<TMPro.TMP_Text>().text = jsnProduct.Result[i].rating.ToString();
 
-            goItems.GetComponent<Button>().AddEventListener(i, ItemClicked);
+            goItems.GetComponent<Button>().AddEventListener(jsnProduct.Result[i].id_product, ItemClicked);
         }
     }
 
-    public void ItemClicked(int ItemIndex)
+    public void ItemClicked(string ItemIndex)
     {
         detail.SetActive(true);
-        PlayerPrefs.SetString("IdProduct", jsnProduct.Result[ItemIndex].id_product);
-        Debug.Log(jsnProduct.Result[ItemIndex].name);
-        StartCoroutine(detailNotdestroyed.GetComponent<ControllerDetail>().GetProductbyID(jsnProduct.Result[ItemIndex].id_product));
+        PlayerPrefs.SetString("IdProduct", ItemIndex);
+        Debug.Log(ItemIndex);
+        StartCoroutine(detailNotdestroyed.GetComponent<ControllerDetail>().GetProductbyID(ItemIndex));
+    }
+    // public void ItemClicked(int ItemIndex)
+    // {
+    //     detail.SetActive(true);
+    //     PlayerPrefs.SetString("IdProduct", jsnProduct.Result[ItemIndex].id_product);
+    //     Debug.Log(jsnProduct.Result[ItemIndex].name);
+    //     StartCoroutine(detailNotdestroyed.GetComponent<ControllerDetail>().GetProductbyID(jsnProduct.Result[ItemIndex].id_product));
+    // }
+
+    public void goARSceneWall()
+    {
+        PlayerPrefs.SetString("IdProduct", "");
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
     }
 
-    public void goARScene()
+    public void goARSceneFloor()
     {
         PlayerPrefs.SetString("IdProduct", "");
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
+
 }
